@@ -18,6 +18,12 @@
   <style>
     /* ── RESET & TOKENS ─────────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    /* Touch-friendly tap highlights */
+    a, button, .btn, .svc-option, .cal-day, .time-slot, .tab-btn, .service-card {
+      -webkit-tap-highlight-color: transparent;
+    }
+    /* Prevent text inflation on iOS */
+    body { -webkit-text-size-adjust: 100%; }
     :root {
       --bg:        #08070a;
       --bg2:       #100e14;
@@ -717,28 +723,116 @@
     /* ════════════════════════════════════════════════════════════
        RESPONSIVE
     ════════════════════════════════════════════════════════════ */
+    /* ── TABLET ────────────────────────────────────────────── */
     @media (max-width: 1024px) {
-      .about-grid    { grid-template-columns: 1fr; gap: 40px; }
-      .booking-layout { grid-template-columns: 1fr; }
-      .contact-grid  { grid-template-columns: 1fr; }
-      .footer-grid   { grid-template-columns: 1fr 1fr; }
-      .testi-card    { flex: 0 0 calc(50% - 1rem); }
+      .about-grid      { grid-template-columns: 1fr; gap: 40px; }
+      .booking-layout  { grid-template-columns: 1fr; }
+      .contact-grid    { grid-template-columns: 1fr; }
+      .footer-grid     { grid-template-columns: 1fr 1fr; }
+      .testi-card      { flex: 0 0 calc(50% - 1rem); }
+      .services-grid   { grid-template-columns: repeat(2, 1fr); }
     }
+
+    /* ── MOBILE ────────────────────────────────────────────── */
     @media (max-width: 768px) {
-      section { padding: 70px 0; }
+      section { padding: 60px 0; }
+
+      /* Nav */
       .nav-links, .nav-book { display: none; }
       .hamburger { display: flex; }
-      .gallery-grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
-      .gallery-cell:first-child { grid-column: span 2; grid-row: span 1; }
-      .gallery-cell:nth-child(4) { grid-column: span 1; }
-      .testi-card { flex: 0 0 100%; }
-      .services-tabs { flex-wrap: wrap; }
-      .footer-grid { grid-template-columns: 1fr; }
-      .video-placeholder { grid-template-columns: 1fr; }
-      .form-row { grid-template-columns: 1fr; }
-      .stats-row { gap: 1.5rem; }
+
+      /* Hero */
+      .hero-content { padding: 8rem 5vw 5rem; }
+      .hero-h1 { font-size: clamp(3rem, 12vw, 5rem); }
+      .hero-sub { font-size: 1rem; }
       .hero-ctas { flex-direction: column; }
+      .hero-ctas .btn { width: 100%; justify-content: center; }
+      .hero-scroll { display: none; }
+
+      /* About */
+      .about-img-frame { aspect-ratio: 3/2; }
+      .stats-row { gap: 1.2rem; flex-wrap: wrap; }
+      .stat h3   { font-size: 2rem; }
+
+      /* Services */
+      .services-tabs  { flex-wrap: wrap; width: 100%; }
+      .tab-btn        { flex: 1 1 auto; font-size: .6rem; padding: .6rem 1rem; }
+      .services-grid  { grid-template-columns: 1fr; }
+
+      /* Gallery */
+      .gallery-grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+      .gallery-cell:first-child { grid-column: span 2; grid-row: span 1; aspect-ratio: 16/9; }
+      .gallery-cell:nth-child(4) { grid-column: span 1; }
+      .video-placeholder { grid-template-columns: 1fr; }
+
+      /* Booking widget */
+      .booking-widget { padding: 1.5rem; }
+      .booking-steps  { gap: 0; }
       .booking-steps .step span:not(.step-num) { display: none; }
+      .step-connector { flex: .1; }
+      .time-slots { grid-template-columns: repeat(3, 1fr); gap: .4rem; }
+      .time-slot  { font-size: .55rem; padding: .5rem .2rem; }
+      .payment-methods { flex-wrap: wrap; }
+      .pay-method { flex: 1 1 calc(33% - .4rem); min-width: 80px; }
+      .step-nav   { flex-direction: column; }
+      .step-nav .btn { width: 100%; justify-content: center; }
+      .form-row   { grid-template-columns: 1fr; }
+
+      /* Testimonials */
+      .testi-card { flex: 0 0 100%; }
+
+      /* Contact */
+      .social-row { flex-wrap: wrap; }
+
+      /* Footer */
+      .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .footer-bottom { flex-direction: column; text-align: center; gap: .5rem; }
+
+      /* FABs — prevent overlap on small screens */
+      .fab-book { bottom: 1.5rem; right: 1.5rem; width: 54px; height: 54px; font-size: 1.1rem; }
+      .fab-wa   { bottom: 1.5rem; left: 1.5rem;  width: 46px; height: 46px; font-size: 1.2rem; }
+    }
+
+    /* ── SMALL PHONES ──────────────────────────────────────── */
+    @media (max-width: 480px) {
+      .container { padding: 0 4vw; }
+      section    { padding: 50px 0; }
+
+      /* Hero */
+      .hero-h1   { font-size: clamp(2.6rem, 10vw, 3.5rem); }
+      .hero-badge { font-size: .55rem; letter-spacing: .18em; }
+
+      /* Services — single column, remove span 2 from bridal card */
+      .services-grid > .service-card[style*="grid-column"] { grid-column: span 1 !important; }
+
+      /* Calendar */
+      .cal-day   { font-size: .75rem; }
+      .cal-day-name { font-size: .5rem; }
+      .time-slots { grid-template-columns: repeat(2, 1fr); }
+
+      /* Booking summary */
+      .summary-row { font-size: .8rem; }
+      .summary-row.total span:last-child { font-size: 1.2rem; }
+
+      /* Packages policy grid */
+      div[style*="grid-template-columns:1fr 1fr"] { grid-template-columns: 1fr !important; }
+      div[style*="grid-column:span 2"]            { grid-column: span 1 !important; }
+
+      /* Why cards */
+      #why .container > div[style*="grid-template-columns"] { grid-template-columns: 1fr !important; }
+
+      /* Stats */
+      .stat h3 { font-size: 1.8rem; }
+
+      /* Testimonials */
+      .testi-card { padding: 1.8rem 1.5rem; }
+
+      /* Modal */
+      .modal-box { padding: 2.5rem 1.5rem; }
+      .modal-box h2 { font-size: 1.8rem; }
+
+      /* Buttons */
+      .btn { padding: .75rem 1.6rem; font-size: .65rem; }
     }
   </style>
 </head>
@@ -869,7 +963,7 @@
           </ul>
         </div>
         <div class="stats-row">
-          <div class="stat"><h3>200+</h3><p>Happy Clients</p></div>
+          <div class="stat"><h3>500+</h3><p>Happy Clients</p></div>
           <div class="stat"><h3>5★</h3><p>Average Rating</p></div>
           <div class="stat"><h3>8+</h3><p>Years Experience</p></div>
         </div>
@@ -1186,14 +1280,14 @@ document.querySelectorAll('.why-bar').forEach(bar => {
             <div class="svc-option" onclick="selectService(this,'Wedding Day Makeup','TBC',120)">
               <div class="svc-option-left">
                 <span>💍</span>
-                <div><div class="svc-option-name">Wedding Day Makeup</div><div class="svc-option-dur">~2.5 hrs</div></div>
+                <div><div class="svc-option-name">Wedding Day Makeup</div><div class="svc-option-dur">~2 hrs</div></div>
               </div>
               <span class="svc-option-price">TBC</span>
             </div>
             <div class="svc-option" onclick="selectService(this,'Graduation — Soft Glam','TBC',60)">
               <div class="svc-option-left">
                 <span>🎓</span>
-                <div><div class="svc-option-name">Birthday Glam</div><div class="svc-option-dur">~1.5 hr · Lashes incl.</div></div>
+                <div><div class="svc-option-name">Graduation — Soft Glam</div><div class="svc-option-dur">~1 hr · Lashes incl.</div></div>
               </div>
               <span class="svc-option-price">TBC</span>
             </div>
@@ -1279,7 +1373,7 @@ document.querySelectorAll('.why-bar').forEach(bar => {
 
           <div class="deposit-note">
             🔒 <strong>Deposit Policy:</strong> A non-refundable deposit of £30 or 30% of the total service is required to confirm your booking. Remaining balance due on the day.<br>
-            <span style="font-size:.78rem;margin-top:.3rem;display:block">✦ One reschedule permitted with at least 48 hours' notice · Late cancellations &amp; no-shows forfeit the deposit</span>
+            <span style="font-size:.78rem;margin-top:.3rem;display:block">✦ One reschedule permitted with at least 24 hours' notice · Late cancellations &amp; no-shows forfeit the deposit</span>
           </div>
 
           <p style="font-family:'Cinzel',serif;font-size:.65rem;letter-spacing:.18em;color:var(--muted);margin-bottom:.8rem">PAYMENT METHOD</p>
@@ -1400,7 +1494,7 @@ document.querySelectorAll('.why-bar').forEach(bar => {
             <div class="contact-icon">📧</div>
             <div>
               <h4>Email</h4>
-              <p><a href="mailto:ybelegancebooking@gmail.com" style="color:var(--gold)">ybelegancebooking@gmail.com</a></p>
+              <p><a href="mailto:ybelegance@gmail.com" style="color:var(--gold)">ybelegance@gmail.com</a></p>
             </div>
           </div>
           <div class="contact-item">
@@ -1773,6 +1867,9 @@ function processPayment() {
     ? booking.date.toLocaleDateString('en-GB', { weekday:'long', day:'numeric', month:'long', year:'numeric' })
     : '—';
 
+  // ✅ Open Stripe IMMEDIATELY (must be synchronous / direct click action)
+  window.open('https://book.stripe.com/3cI3cvfrOckQbHhg3Pd3i00', '_blank');
+
   const templateParams = {
     client_name:  `${booking.fname} ${booking.lname}`,
     client_email: booking.email,
@@ -1786,30 +1883,23 @@ function processPayment() {
     location:     document.getElementById('blocation')?.value || 'Not specified'
   };
 
-  // Send both emails in parallel
+  // Send both emails in parallel (after Stripe is already open)
   Promise.all([
-    // Email 1 → Customer confirmation
     emailjs.send('service_b8yos86', 'template_45htfiy', templateParams),
-    // Email 2 → Owner notification
     emailjs.send('service_b8yos86', 'template_9cp5jao', {
       ...templateParams,
-      to_email: 'ybelegancebooking@gmail.com'
+      to_email: 'Ybelegancebooking@gmail.com'
     })
   ])
   .then(() => {
-    // Both sent — open Stripe and show modal
-    window.open('https://book.stripe.com/3cI3cvfrOckQbHhg3Pd3i00', '_blank');
     document.getElementById('modalMsg').textContent =
-      `Booking request sent! ✦ A confirmation has been emailed to ${booking.email}. Complete your £${deposit.replace('£','')} deposit on the Stripe page that just opened to fully secure your appointment.`;
+      `Stripe has opened in a new tab to complete your deposit. A confirmation has also been emailed to ${booking.email}. ✦ See you soon!`;
     document.getElementById('successModal').classList.add('open');
     btn.textContent = 'Booking Confirmed!';
   })
-  .catch(err => {
-    console.error('EmailJS error:', err);
-    // Still open Stripe even if email fails
-    window.open('https://book.stripe.com/3cI3cvfrOckQbHhg3Pd3i00', '_blank');
+  .catch(() => {
     document.getElementById('modalMsg').textContent =
-      `Redirecting you to Stripe to secure your deposit for ${booking.service} on ${dateStr} at ${booking.time}. Please also email us at ybelegancebooking@gmail.com to confirm your booking details.`;
+      `Stripe has opened in a new tab to complete your deposit for ${booking.service} on ${dateStr} at ${booking.time}. Please also email Ybelegancebooking@gmail.com with your booking details.`;
     document.getElementById('successModal').classList.add('open');
     btn.textContent = 'Pay Deposit & Confirm Booking';
   });
@@ -1878,7 +1968,7 @@ function sendEnquiry() {
     notes:        msg,
     location:     '—',
     reply_to:     email,
-    to_email:     'ybelegancebooking@gmail.com'
+    to_email:     'Ybelegancebooking@gmail.com'
   })
   .then(() => {
     document.getElementById('contactModal').classList.add('open');
@@ -1889,7 +1979,7 @@ function sendEnquiry() {
     btn.textContent = 'Send Message ✦';
   })
   .catch(() => {
-    alert('Message could not be sent. Please email us directly at ybelegancebooking@gmail.com');
+    alert('Message could not be sent. Please email us directly at Ybelegancebooking@gmail.com');
     btn.textContent = 'Send Message ✦';
   });
 }
