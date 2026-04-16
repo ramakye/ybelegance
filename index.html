@@ -6,6 +6,10 @@
   <title>YB Elegance | Makeup & Hair Artistry</title>
   <meta name="description" content="YB Elegance — Premium makeup and hair artistry in Southbury, Enfield. Book your transformation today." />
 
+  <!-- EmailJS -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script>emailjs.init('wBpiNiTplY6vGymLG');</script>
+
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -865,7 +869,7 @@
           </ul>
         </div>
         <div class="stats-row">
-          <div class="stat"><h3>500+</h3><p>Happy Clients</p></div>
+          <div class="stat"><h3>200+</h3><p>Happy Clients</p></div>
           <div class="stat"><h3>5★</h3><p>Average Rating</p></div>
           <div class="stat"><h3>8+</h3><p>Years Experience</p></div>
         </div>
@@ -1182,14 +1186,14 @@ document.querySelectorAll('.why-bar').forEach(bar => {
             <div class="svc-option" onclick="selectService(this,'Wedding Day Makeup','TBC',120)">
               <div class="svc-option-left">
                 <span>💍</span>
-                <div><div class="svc-option-name">Wedding Day Makeup</div><div class="svc-option-dur">~2 hrs</div></div>
+                <div><div class="svc-option-name">Wedding Day Makeup</div><div class="svc-option-dur">~2.5 hrs</div></div>
               </div>
               <span class="svc-option-price">TBC</span>
             </div>
             <div class="svc-option" onclick="selectService(this,'Graduation — Soft Glam','TBC',60)">
               <div class="svc-option-left">
                 <span>🎓</span>
-                <div><div class="svc-option-name">Graduation — Soft Glam</div><div class="svc-option-dur">~1 hr · Lashes incl.</div></div>
+                <div><div class="svc-option-name">Birthday Glam</div><div class="svc-option-dur">~1.5 hr · Lashes incl.</div></div>
               </div>
               <span class="svc-option-price">TBC</span>
             </div>
@@ -1396,7 +1400,7 @@ document.querySelectorAll('.why-bar').forEach(bar => {
             <div class="contact-icon">📧</div>
             <div>
               <h4>Email</h4>
-              <p><a href="mailto:ybelegance@gmail.com" style="color:var(--gold)">ybelegance@gmail.com</a></p>
+              <p><a href="mailto:ybelegancebooking@gmail.com" style="color:var(--gold)">ybelegancebooking@gmail.com</a></p>
             </div>
           </div>
           <div class="contact-item">
@@ -1758,20 +1762,57 @@ function selectPayment(el) {
 }
 
 function processPayment() {
-  /* 
-   * ── STRIPE INTEGRATION ──────────────────────────────────────────────────
-   * To go live, replace the mock below with your real Stripe Payment Link:
-   *   window.open('https://buy.stripe.com/YOUR_PAYMENT_LINK_HERE', '_blank');
-   * 
-   * Or use Stripe Checkout with a backend endpoint:
-   *   fetch('/create-checkout-session', { method:'POST', body: JSON.stringify(booking) })
-   *     .then(r => r.json()).then(d => window.location = d.url);
-   * ────────────────────────────────────────────────────────────────────────
-   */
-  const modal = document.getElementById('successModal');
-  document.getElementById('modalMsg').textContent =
-    `Booking confirmed for ${booking.service} on ${booking.date?.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})} at ${booking.time}. A confirmation will be sent to ${booking.email}.`;
-  modal.classList.add('open');
+  const btn = document.getElementById('payBtnText');
+  btn.textContent = 'Sending confirmation…';
+
+  const deposit = booking.priceNum > 0
+    ? '£' + Math.max(30, Math.ceil(booking.priceNum * .3))
+    : '£30';
+
+  const dateStr = booking.date
+    ? booking.date.toLocaleDateString('en-GB', { weekday:'long', day:'numeric', month:'long', year:'numeric' })
+    : '—';
+
+  const templateParams = {
+    client_name:  `${booking.fname} ${booking.lname}`,
+    client_email: booking.email,
+    client_phone: booking.phone,
+    service:      booking.service,
+    date:         dateStr,
+    time:         booking.time,
+    deposit:      deposit,
+    reply_to:     booking.email,
+    notes:        document.getElementById('bnotes')?.value || 'None',
+    location:     document.getElementById('blocation')?.value || 'Not specified'
+  };
+
+  // Send both emails in parallel
+  Promise.all([
+    // Email 1 → Customer confirmation
+    emailjs.send('service_b8yos86', 'template_45htfiy', templateParams),
+    // Email 2 → Owner notification
+    emailjs.send('service_b8yos86', 'template_9cp5jao', {
+      ...templateParams,
+      to_email: 'ybelegancebooking@gmail.com'
+    })
+  ])
+  .then(() => {
+    // Both sent — open Stripe and show modal
+    window.open('https://book.stripe.com/3cI3cvfrOckQbHhg3Pd3i00', '_blank');
+    document.getElementById('modalMsg').textContent =
+      `Booking request sent! ✦ A confirmation has been emailed to ${booking.email}. Complete your £${deposit.replace('£','')} deposit on the Stripe page that just opened to fully secure your appointment.`;
+    document.getElementById('successModal').classList.add('open');
+    btn.textContent = 'Booking Confirmed!';
+  })
+  .catch(err => {
+    console.error('EmailJS error:', err);
+    // Still open Stripe even if email fails
+    window.open('https://book.stripe.com/3cI3cvfrOckQbHhg3Pd3i00', '_blank');
+    document.getElementById('modalMsg').textContent =
+      `Redirecting you to Stripe to secure your deposit for ${booking.service} on ${dateStr} at ${booking.time}. Please also email us at ybelegancebooking@gmail.com to confirm your booking details.`;
+    document.getElementById('successModal').classList.add('open');
+    btn.textContent = 'Pay Deposit & Confirm Booking';
+  });
 }
 
 function closeModal() {
@@ -1817,14 +1858,40 @@ revealOnScroll();
 
 /* ── CONTACT FORM ────────────────────────────────────── */
 function sendEnquiry() {
-  const name = document.getElementById('cname').value.trim();
-  const email = document.getElementById('cemail').value.trim();
-  const msg  = document.getElementById('cmessage').value.trim();
+  const name    = document.getElementById('cname').value.trim();
+  const email   = document.getElementById('cemail').value.trim();
+  const subject = document.getElementById('csubject').value;
+  const msg     = document.getElementById('cmessage').value.trim();
   if (!name || !email || !msg) { alert('Please fill in your name, email, and message.'); return; }
-  document.getElementById('contactModal').classList.add('open');
-  document.getElementById('cname').value = '';
-  document.getElementById('cemail').value = '';
-  document.getElementById('cmessage').value = '';
+
+  const btn = event.target;
+  btn.textContent = 'Sending…';
+
+  emailjs.send('service_b8yos86', 'template_9cp5jao', {
+    client_name:  name,
+    client_email: email,
+    service:      subject || 'General Enquiry',
+    date:         '—',
+    time:         '—',
+    deposit:      '—',
+    client_phone: '—',
+    notes:        msg,
+    location:     '—',
+    reply_to:     email,
+    to_email:     'ybelegancebooking@gmail.com'
+  })
+  .then(() => {
+    document.getElementById('contactModal').classList.add('open');
+    document.getElementById('cname').value = '';
+    document.getElementById('cemail').value = '';
+    document.getElementById('csubject').value = '';
+    document.getElementById('cmessage').value = '';
+    btn.textContent = 'Send Message ✦';
+  })
+  .catch(() => {
+    alert('Message could not be sent. Please email us directly at ybelegancebooking@gmail.com');
+    btn.textContent = 'Send Message ✦';
+  });
 }
 
 /* ── INIT ─────────────────────────────────────────────── */
