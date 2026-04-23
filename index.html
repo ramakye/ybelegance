@@ -556,12 +556,19 @@
     .summary-row.total span:last-child { font-family: 'Cormorant Garant', serif; font-size: 1.4rem; color: var(--gold); }
     .payment-methods { display: flex; gap: .5rem; margin-bottom: 1.5rem; }
     .pay-method {
-      flex: 1; padding: .8rem; border: 1px solid var(--border);
+      flex: 1; padding: .7rem .5rem; border: 1px solid var(--border);
       text-align: center; cursor: pointer; transition: var(--trans);
-      font-family: 'Cinzel', serif; font-size: .6rem; letter-spacing: .12em; color: var(--muted);
+      font-family: 'Cinzel', serif; font-size: .58rem; letter-spacing: .1em;
+      color: var(--muted); display: flex; flex-direction: column;
+      align-items: center; gap: .3rem;
     }
     .pay-method.selected { border-color: var(--gold); color: var(--gold); }
-    .pay-method .pay-icon { font-size: 1.3rem; display: block; margin-bottom: .3rem; }
+    .pay-method .pay-icon {
+      display: flex; align-items: center; justify-content: center;
+      height: 24px;
+    }
+    .pay-method .pay-icon svg { opacity: .6; transition: opacity var(--trans); }
+    .pay-method.selected .pay-icon svg { opacity: 1; }
     .stripe-badge {
       display: flex; align-items: center; justify-content: center; gap: .5rem;
       font-size: .7rem; color: var(--muted); margin-top: 1rem;
@@ -721,9 +728,30 @@
     .reveal-right { opacity: 0; transform: translateX(40px);  transition: opacity .8s ease, transform .8s ease; }
     .reveal-left.visible, .reveal-right.visible { opacity: 1; transform: translateX(0); }
 
-    /* ════════════════════════════════════════════════════════════
-       RESPONSIVE
-    ════════════════════════════════════════════════════════════ */
+    /* ── POLICY GRID ── */
+    .policy-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;
+    }
+    .policy-card {
+      background: var(--bg2); border: 1px solid var(--border); padding: 2.5rem;
+    }
+    .policy-card--full { grid-column: span 2; }
+    .policy-list {
+      list-style: none; display: flex; flex-direction: column; gap: 1rem; margin-top: .5rem;
+    }
+    .policy-list li {
+      display: flex; gap: .8rem; align-items: flex-start;
+      font-size: .88rem; color: var(--muted); line-height: 1.6;
+    }
+    .policy-list .perk-dot { margin-top: .45rem; flex-shrink: 0; }
+    .policy-list span { display: block; }
+    .policy-highlight { color: var(--text); font-weight: 500; }
+    @media (max-width: 600px) {
+      .policy-grid { grid-template-columns: 1fr; }
+      .policy-card--full { grid-column: span 1; }
+    }
+
+    /* ── RESPONSIVE ════ */
     /* ── TABLET ────────────────────────────────────────────── */
     @media (max-width: 1024px) {
       .about-grid      { grid-template-columns: 1fr; gap: 40px; }
@@ -916,7 +944,7 @@
   </div>
   <canvas id="particles"></canvas>
   <div class="hero-content">
-    <div class="hero-badge">Southbury · Enfield · Est. 2020</div>
+    <div class="hero-badge">Southbury · Enfield · Est. 2024</div>
     <h1 class="hero-h1 display">
       Where Beauty<br><em>Becomes Art</em>
     </h1>
@@ -947,7 +975,12 @@
   <div class="container">
     <div class="about-grid">
       <div class="about-img-frame reveal-left">
-        <div class="about-img-placeholder">
+        <!-- PORTRAIT PHOTO: place your photo at media/images/portrait.jpg -->
+        <img src="media/images/portrait.jpg"
+             alt="YB Elegance — Makeup Artist"
+             style="width:100%;height:100%;object-fit:cover;object-position:center top;"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+        <div class="about-img-placeholder" style="display:none;flex-direction:column;align-items:center">
           <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
             <circle cx="30" cy="22" r="10" stroke="#c9a462" stroke-width="1.5"/>
             <path d="M10 52c0-11.046 8.954-20 20-20s20 8.954 20 20" stroke="#c9a462" stroke-width="1.5"/>
@@ -959,20 +992,18 @@
         <span class="section-label">Our Story</span>
         <h2>Artistry <em>refined</em>,<br>confidence redefined</h2>
         <div class="divider"><div class="divider-diamond"></div></div>
-        <p>YB Elegance was born from a deep passion for transformative beauty. Based in Southbury, Enfield, every look is crafted with intention — to enhance your natural features, reflect your personality, and leave you feeling undeniably confident.</p>
-        <p>Whether it's your wedding day, graduation, a special occasion, or simply a moment to feel extraordinary — every appointment is a private, personalised experience from start to finish.</p>
+        <p>YB Elegance was born from a passion for transformative beauty. Based in Southbury, Enfield, every look is designed to enhance your natural features and leave you feeling confident.</p>
+        <p>From weddings, birthdays, and special occasions, each appointment is a personalised, luxury experience.</p>
 
         <div style="margin-top:2rem">
           <span class="section-label" style="margin-bottom:1rem">Why Choose Me</span>
           <ul class="booking-perks">
-            <li><span class="perk-dot"></span> Long-lasting, flawless finish — built to last your whole event</li>
-            <li><span class="perk-dot"></span> Tailored looks for your skin tone &amp; features — never a one-size-fits-all</li>
-            <li><span class="perk-dot"></span> Calm, professional experience — you're in safe, caring hands</li>
-            <li><span class="perk-dot"></span> Hygiene &amp; premium products guaranteed — every time</li>
+            <li><span class="perk-dot"></span> Long-lasting, flawless finish</li>
+            <li><span class="perk-dot"></span> Premium products & high hygiene standards</li>
           </ul>
         </div>
         <div class="stats-row">
-          <div class="stat"><h3>100+</h3><p>Happy Clients</p></div>
+          <div class="stat"><h3>200+</h3><p>Happy Clients</p></div>
           <div class="stat"><h3>5★</h3><p>Average Rating</p></div>
           <div class="stat"><h3>8+</h3><p>Years Experience</p></div>
         </div>
@@ -1003,15 +1034,15 @@
         <div class="service-card" style="grid-column:span 2">
           <div class="service-icon">👰</div>
           <h3>Bridal Makeup</h3>
-          <p>Your big day deserves perfection. I offer customised bridal looks designed to enhance your natural beauty while ensuring long-lasting wear throughout every precious moment.</p>
+          <p>Your wedding day is not the time to experiment it’s the time to feel flawless. This will include skincare/skin prepping, removing unwanted facial hair for a flawless look and high end products</p>
           <div style="margin-top:1.2rem;display:flex;flex-direction:column;gap:.5rem">
             <div style="display:flex;justify-content:space-between;align-items:center;padding:.6rem 0;border-bottom:1px solid var(--border)">
               <span style="font-size:.9rem;color:var(--text)">Bridal Trial</span>
-              <span style="font-family:'Cormorant Garant',serif;font-size:1.4rem;color:var(--gold)">TBC</span>
+              <span style="font-family:'Cormorant Garant',serif;font-size:1.4rem;color:var(--gold)">From £60</span>
             </div>
             <div style="display:flex;justify-content:space-between;align-items:center;padding:.6rem 0;border-bottom:1px solid var(--border)">
-              <span style="font-size:.9rem;color:var(--text)">Wedding Day Makeup</span>
-              <span style="font-family:'Cormorant Garant',serif;font-size:1.4rem;color:var(--gold)">TBC</span>
+              <span style="font-size:.9rem;color:var(--text)">Traditional / White Wedding Makeup</span>
+              <span style="font-family:'Cormorant Garant',serif;font-size:1.4rem;color:var(--gold)">From £200</span>
             </div>
             <div style="display:flex;justify-content:space-between;align-items:center;padding:.6rem 0">
               <span style="font-size:.9rem;color:var(--muted);font-style:italic">✦ Bridal Packages Available</span>
@@ -1023,19 +1054,16 @@
           </div>
         </div>
 
-        <!-- GRADUATION MAKEUP -->
+        <!-- Birthday MAKEUP -->
         <div class="service-card">
-          <div class="service-icon">🎓</div>
-          <h3>Graduation Makeup</h3>
-          <p>Soft glam or full glam to have you looking flawless and confident for your big milestone. Strip lashes included with every look.</p>
+          <div class="service-icon">💄</div>
+          <h3>Birthday Makeup</h3>
+          <p>This look features a dramatic eyeshadow or a defined cut crease, paired with smooth, sculpted skin and a polished lip. Perfect for your birthday night out or event.</p>
           <div style="margin-top:1rem;display:flex;flex-direction:column;gap:.4rem">
-            <div style="display:flex;justify-content:space-between;align-items:center;padding:.5rem 0;border-bottom:1px solid var(--border)">
-              <span style="font-size:.88rem;color:var(--text)">Soft Glam</span>
-              <span style="font-family:'Cormorant Garant',serif;font-size:1.3rem;color:var(--gold)">TBC</span>
-            </div>
+            
             <div style="display:flex;justify-content:space-between;align-items:center;padding:.5rem 0">
               <span style="font-size:.88rem;color:var(--text)">Full Glam</span>
-              <span style="font-family:'Cormorant Garant',serif;font-size:1.3rem;color:var(--gold)">TBC</span>
+              <span style="font-family:'Cormorant Garant',serif;font-size:1.3rem;color:var(--gold)">From £60</span>
             </div>
           </div>
           <div style="margin-top:.8rem;padding:.5rem .8rem;background:rgba(201,164,98,.08);border-left:2px solid var(--gold);font-size:.8rem;color:var(--muted)">
@@ -1048,17 +1076,17 @@
 
         <!-- OCCASION MAKEUP -->
         <div class="service-card">
-          <div class="service-icon">💄</div>
+          <div class="service-icon">🎓</div>
           <h3>Occasion Makeup</h3>
-          <p>Perfect for birthdays, events, or special nights out. Whatever the occasion, I'll create a look that turns heads and keeps you glowing all night.</p>
+          <p>Elevated glam for your most important moments—prom, graduation, wedding guest, and special events.</p>
           <div style="margin-top:1rem;display:flex;flex-direction:column;gap:.4rem">
             <div style="display:flex;justify-content:space-between;align-items:center;padding:.5rem 0;border-bottom:1px solid var(--border)">
               <span style="font-size:.88rem;color:var(--text)">Soft Glam</span>
-              <span style="font-family:'Cormorant Garant',serif;font-size:1.3rem;color:var(--gold)">TBC</span>
+              <span style="font-family:'Cormorant Garant',serif;font-size:1.3rem;color:var(--gold)">From £50</span>
             </div>
             <div style="display:flex;justify-content:space-between;align-items:center;padding:.5rem 0">
               <span style="font-size:.88rem;color:var(--text)">Full Glam</span>
-              <span style="font-family:'Cormorant Garant',serif;font-size:1.3rem;color:var(--gold)">TBC</span>
+              <span style="font-family:'Cormorant Garant',serif;font-size:1.3rem;color:var(--gold)">From £60</span>
             </div>
           </div>
           <div class="service-price" style="border-top:1px solid var(--border);margin-top:1.2rem;padding-top:.8rem">
@@ -1071,53 +1099,53 @@
 
     <!-- PACKAGES / POLICIES TAB -->
     <div class="tab-panel" id="tab-packages">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem">
+      <div class="policy-grid">
 
-        <div style="background:var(--bg2);border:1px solid var(--border);padding:2.5rem">
+        <div class="policy-card">
           <div style="font-size:1.8rem;margin-bottom:1rem">📋</div>
           <h3 style="font-size:1.5rem;color:var(--cream);margin-bottom:1rem">Deposit Policy</h3>
           <div class="divider"><div class="divider-diamond"></div></div>
-          <ul style="list-style:none;display:flex;flex-direction:column;gap:.9rem;margin-top:.5rem">
-            <li style="display:flex;gap:.8rem;align-items:flex-start;font-size:.88rem;color:var(--muted)">
-              <span class="perk-dot" style="margin-top:.5rem;flex-shrink:0"></span>
-              A non-refundable deposit of <strong style="color:var(--text)">£30 or 30%</strong> of the total service is required to secure all bookings
+          <ul class="policy-list">
+            <li>
+              <span class="perk-dot"></span>
+              <span>A non-refundable deposit of <span class="policy-highlight">£30 or 30%</span> of the total service is required to secure all bookings.</span>
             </li>
-            <li style="display:flex;gap:.8rem;align-items:flex-start;font-size:.88rem;color:var(--muted)">
-              <span class="perk-dot" style="margin-top:.5rem;flex-shrink:0"></span>
-              Appointments are <strong style="color:var(--text)">not confirmed</strong> until the deposit has been received
+            <li>
+              <span class="perk-dot"></span>
+              <span>Appointments are <span class="policy-highlight">not confirmed</span> until the deposit has been received.</span>
             </li>
-            <li style="display:flex;gap:.8rem;align-items:flex-start;font-size:.88rem;color:var(--muted)">
-              <span class="perk-dot" style="margin-top:.5rem;flex-shrink:0"></span>
-              The remaining balance must be paid <strong style="color:var(--text)">before or on the day</strong> of your appointment
+            <li>
+              <span class="perk-dot"></span>
+              <span>The remaining balance must be paid <span class="policy-highlight">before or on the day</span> of your appointment.</span>
             </li>
           </ul>
         </div>
 
-        <div style="background:var(--bg2);border:1px solid var(--border);padding:2.5rem">
+        <div class="policy-card">
           <div style="font-size:1.8rem;margin-bottom:1rem">🔄</div>
           <h3 style="font-size:1.5rem;color:var(--cream);margin-bottom:1rem">Cancellation Policy</h3>
           <div class="divider"><div class="divider-diamond"></div></div>
-          <ul style="list-style:none;display:flex;flex-direction:column;gap:.9rem;margin-top:.5rem">
-            <li style="display:flex;gap:.8rem;align-items:flex-start;font-size:.88rem;color:var(--muted)">
-              <span class="perk-dot" style="margin-top:.5rem;flex-shrink:0"></span>
-              Deposits are <strong style="color:var(--text)">non-refundable</strong>
+          <ul class="policy-list">
+            <li>
+              <span class="perk-dot"></span>
+              <span>Deposits are <span class="policy-highlight">non-refundable</span>.</span>
             </li>
-            <li style="display:flex;gap:.8rem;align-items:flex-start;font-size:.88rem;color:var(--muted)">
-              <span class="perk-dot" style="margin-top:.5rem;flex-shrink:0"></span>
-              You may <strong style="color:var(--text)">reschedule once</strong> with at least <strong style="color:var(--text)">48 hours' notice</strong>
+            <li>
+              <span class="perk-dot"></span>
+              <span>You may <span class="policy-highlight">reschedule once</span> with at least <span class="policy-highlight">48 hours' notice</span>.</span>
             </li>
-            <li style="display:flex;gap:.8rem;align-items:flex-start;font-size:.88rem;color:var(--muted)">
-              <span class="perk-dot" style="margin-top:.5rem;flex-shrink:0"></span>
-              Late cancellations or <strong style="color:var(--text)">no-shows</strong> will result in loss of deposit
+            <li>
+              <span class="perk-dot"></span>
+              <span>Late cancellations or <span class="policy-highlight">no-shows</span> will result in loss of deposit.</span>
             </li>
           </ul>
         </div>
 
-        <div style="background:var(--bg2);border:1px solid var(--border);padding:2.5rem;grid-column:span 2">
+        <div class="policy-card policy-card--full">
           <div style="font-size:1.8rem;margin-bottom:1rem">💍</div>
           <h3 style="font-size:1.5rem;color:var(--cream);margin-bottom:1rem">Bridal Packages</h3>
           <p style="color:var(--muted);font-size:.9rem;margin-bottom:1.5rem">
-            Bespoke bridal packages are available combining your Bridal Trial and Wedding Day Makeup at a special rate. 
+            Bespoke bridal packages are available combining your Bridal Trial and Wedding Day Makeup at a special rate.
             Get in touch to discuss your requirements and receive a personalised quote.
           </p>
           <button class="btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})"><span>Enquire About Bridal Packages</span></button>
@@ -1152,23 +1180,6 @@
           class="why-bar"></div>
       </div>
 
-      <div style="background:var(--bg2);padding:2.8rem 2.2rem;position:relative;overflow:hidden;transition:var(--trans)"
-        onmouseover="this.style.background='var(--bg3)'" onmouseout="this.style.background='var(--bg2)'">
-        <div style="font-size:2.2rem;margin-bottom:1.2rem">🎨</div>
-        <h3 style="font-size:1.3rem;color:var(--cream);margin-bottom:.7rem">Tailored To You</h3>
-        <p style="color:var(--muted);font-size:.9rem">Every face is different. I tailor each look to your unique skin tone, features, and personal style — never a cookie-cutter result.</p>
-        <div style="position:absolute;bottom:0;left:0;height:2px;width:0;background:var(--gold);transition:width .5s ease"
-          class="why-bar"></div>
-      </div>
-
-      <div style="background:var(--bg2);padding:2.8rem 2.2rem;position:relative;overflow:hidden;transition:var(--trans)"
-        onmouseover="this.style.background='var(--bg3)'" onmouseout="this.style.background='var(--bg2)'">
-        <div style="font-size:2.2rem;margin-bottom:1.2rem">🤍</div>
-        <h3 style="font-size:1.3rem;color:var(--cream);margin-bottom:.7rem">Calm &amp; Professional</h3>
-        <p style="color:var(--muted);font-size:.9rem">Big days can be stressful — your makeup appointment shouldn't be. I create a calm, relaxed space so you can truly enjoy the experience.</p>
-        <div style="position:absolute;bottom:0;left:0;height:2px;width:0;background:var(--gold);transition:width .5s ease"
-          class="why-bar"></div>
-      </div>
 
       <div style="background:var(--bg2);padding:2.8rem 2.2rem;position:relative;overflow:hidden;transition:var(--trans)"
         onmouseover="this.style.background='var(--bg3)'" onmouseout="this.style.background='var(--bg2)'">
@@ -1206,32 +1217,108 @@ document.querySelectorAll('.why-bar').forEach(bar => {
       <p>Our full gallery of transformation photos and behind-the-scenes videos will be showcased here.<br>Follow us on Instagram for a preview of our latest work.</p>
     </div>
 
-    <!-- Placeholder grid showing the intended layout -->
+    <!-- Gallery grid — replace placeholder SVGs with your images once uploaded to media/images/ -->
     <div class="gallery-grid reveal">
+
+      <!-- SLOT 1: media/images/gallery-1.jpg — Featured bridal look (large, spans 2 cols × 2 rows) -->
       <div class="gallery-cell">
-        <div class="gallery-cell-inner">
+        <img src="media/images/gallery-1.jpg" alt="Bridal makeup look"
+          style="width:100%;height:100%;object-fit:cover"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+        <div class="gallery-cell-inner" style="display:none;flex-direction:column;align-items:center">
           <svg width="40" height="40" viewBox="0 0 40 40" fill="none"><rect x="2" y="2" width="36" height="36" stroke="#c9a462" stroke-width="1.2"/><circle cx="14" cy="14" r="5" stroke="#c9a462" stroke-width="1"/><path d="M2 28l10-10 8 8 6-6 12 12" stroke="#c9a462" stroke-width="1"/></svg>
           <span>FEATURED LOOK</span>
         </div>
         <div class="gallery-tag">BRIDAL</div>
       </div>
-      <div class="gallery-cell"><div class="gallery-cell-inner"><svg width="30" height="30" viewBox="0 0 40 40" fill="none"><rect x="2" y="2" width="36" height="36" stroke="#c9a462" stroke-width="1.2"/><circle cx="14" cy="14" r="5" stroke="#c9a462" stroke-width="1"/><path d="M2 28l10-10 8 8 6-6 12 12" stroke="#c9a462" stroke-width="1"/></svg><span>GLAM</span></div><div class="gallery-tag">MAKEUP</div></div>
-      <div class="gallery-cell"><div class="gallery-cell-inner"><svg width="30" height="30" viewBox="0 0 40 40" fill="none"><rect x="2" y="2" width="36" height="36" stroke="#c9a462" stroke-width="1.2"/><circle cx="14" cy="14" r="5" stroke="#c9a462" stroke-width="1"/><path d="M2 28l10-10 8 8 6-6 12 12" stroke="#c9a462" stroke-width="1"/></svg><span>STYLE</span></div><div class="gallery-tag">HAIR</div></div>
-      <div class="gallery-cell"><div class="gallery-cell-inner"><svg width="30" height="30" viewBox="0 0 40 40" fill="none"><rect x="2" y="2" width="36" height="36" stroke="#c9a462" stroke-width="1.2"/><circle cx="14" cy="14" r="5" stroke="#c9a462" stroke-width="1"/><path d="M2 28l10-10 8 8 6-6 12 12" stroke="#c9a462" stroke-width="1"/></svg><span>EDITORIAL</span></div><div class="gallery-tag">EDITORIAL</div></div>
-      <div class="gallery-cell"><div class="gallery-cell-inner"><svg width="30" height="30" viewBox="0 0 40 40" fill="none"><rect x="2" y="2" width="36" height="36" stroke="#c9a462" stroke-width="1.2"/><circle cx="14" cy="14" r="5" stroke="#c9a462" stroke-width="1"/><path d="M2 28l10-10 8 8 6-6 12 12" stroke="#c9a462" stroke-width="1"/></svg><span>OCCASION</span></div><div class="gallery-tag">OCCASION</div></div>
-      <div class="gallery-cell"><div class="gallery-cell-inner"><svg width="30" height="30" viewBox="0 0 40 40" fill="none"><rect x="2" y="2" width="36" height="36" stroke="#c9a462" stroke-width="1.2"/><circle cx="14" cy="14" r="5" stroke="#c9a462" stroke-width="1"/><path d="M2 28l10-10 8 8 6-6 12 12" stroke="#c9a462" stroke-width="1"/></svg><span>BRAID</span></div><div class="gallery-tag">HAIR</div></div>
+
+      <!-- SLOT 2: media/images/gallery-2.jpg — Glam makeup -->
+      <div class="gallery-cell">
+        <img src="media/images/gallery-2.jpg" alt="Glam makeup look"
+          style="width:100%;height:100%;object-fit:cover"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+        <div class="gallery-cell-inner" style="display:none;flex-direction:column;align-items:center">
+          <svg width="30" height="30" viewBox="0 0 40 40" fill="none"><rect x="2" y="2" width="36" height="36" stroke="#c9a462" stroke-width="1.2"/><circle cx="14" cy="14" r="5" stroke="#c9a462" stroke-width="1"/><path d="M2 28l10-10 8 8 6-6 12 12" stroke="#c9a462" stroke-width="1"/></svg>
+          <span>GLAM</span>
+        </div>
+        <div class="gallery-tag">MAKEUP</div>
+      </div>
+
+      <!-- SLOT 3: media/images/gallery-3.jpg — Style/glam -->
+      <div class="gallery-cell">
+        <img src="media/images/gallery-3.jpg" alt="Glam style look"
+          style="width:100%;height:100%;object-fit:cover"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+        <div class="gallery-cell-inner" style="display:none;flex-direction:column;align-items:center">
+          <svg width="30" height="30" viewBox="0 0 40 40" fill="none"><rect x="2" y="2" width="36" height="36" stroke="#c9a462" stroke-width="1.2"/><circle cx="14" cy="14" r="5" stroke="#c9a462" stroke-width="1"/><path d="M2 28l10-10 8 8 6-6 12 12" stroke="#c9a462" stroke-width="1"/></svg>
+          <span>STYLE</span>
+        </div>
+        <div class="gallery-tag">GLAM</div>
+      </div>
+
+      <!-- SLOT 4: media/images/gallery-4.jpg — Editorial (spans 2 cols) -->
+      <div class="gallery-cell">
+        <img src="media/images/gallery-4.jpg" alt="Editorial makeup look"
+          style="width:100%;height:100%;object-fit:cover"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+        <div class="gallery-cell-inner" style="display:none;flex-direction:column;align-items:center">
+          <svg width="30" height="30" viewBox="0 0 40 40" fill="none"><rect x="2" y="2" width="36" height="36" stroke="#c9a462" stroke-width="1.2"/><circle cx="14" cy="14" r="5" stroke="#c9a462" stroke-width="1"/><path d="M2 28l10-10 8 8 6-6 12 12" stroke="#c9a462" stroke-width="1"/></svg>
+          <span>EDITORIAL</span>
+        </div>
+        <div class="gallery-tag">EDITORIAL</div>
+      </div>
+
+      <!-- SLOT 5: media/images/gallery-5.jpg — Occasion -->
+      <div class="gallery-cell">
+        <img src="media/images/gallery-5.jpg" alt="Occasion makeup look"
+          style="width:100%;height:100%;object-fit:cover"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+        <div class="gallery-cell-inner" style="display:none;flex-direction:column;align-items:center">
+          <svg width="30" height="30" viewBox="0 0 40 40" fill="none"><rect x="2" y="2" width="36" height="36" stroke="#c9a462" stroke-width="1.2"/><circle cx="14" cy="14" r="5" stroke="#c9a462" stroke-width="1"/><path d="M2 28l10-10 8 8 6-6 12 12" stroke="#c9a462" stroke-width="1"/></svg>
+          <span>OCCASION</span>
+        </div>
+        <div class="gallery-tag">OCCASION</div>
+      </div>
+
+      <!-- SLOT 6: media/images/gallery-6.jpg — Graduation -->
+      <div class="gallery-cell">
+        <img src="media/images/gallery-6.jpg" alt="Graduation makeup look"
+          style="width:100%;height:100%;object-fit:cover"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+        <div class="gallery-cell-inner" style="display:none;flex-direction:column;align-items:center">
+          <svg width="30" height="30" viewBox="0 0 40 40" fill="none"><rect x="2" y="2" width="36" height="36" stroke="#c9a462" stroke-width="1.2"/><circle cx="14" cy="14" r="5" stroke="#c9a462" stroke-width="1"/><path d="M2 28l10-10 8 8 6-6 12 12" stroke="#c9a462" stroke-width="1"/></svg>
+          <span>GRAD</span>
+        </div>
+        <div class="gallery-tag">GRADUATION</div>
+      </div>
+
     </div>
 
-    <!-- Video placeholders -->
+    <!-- Videos — add files to media/videos/ with the filenames below -->
     <div class="video-placeholder reveal">
+
+      <!-- VIDEO 1: media/videos/transformation.mp4 -->
       <div class="video-cell">
-        <div class="play-btn">▶</div>
+        <video autoplay muted loop playsinline
+          style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0"
+          onerror="this.style.display='none'">
+          <source src="media/videos/transformation.mp4" type="video/mp4">
+        </video>
+        <div class="play-btn" style="position:relative;z-index:1">▶</div>
         <div class="gallery-tag">TRANSFORMATION VIDEO</div>
       </div>
+
+      <!-- VIDEO 2: media/videos/behind-scenes.mp4 -->
       <div class="video-cell">
-        <div class="play-btn">▶</div>
+        <video autoplay muted loop playsinline
+          style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0"
+          onerror="this.style.display='none'">
+          <source src="media/videos/behind-scenes.mp4" type="video/mp4">
+        </video>
+        <div class="play-btn" style="position:relative;z-index:1">▶</div>
         <div class="gallery-tag">BEHIND THE SCENES</div>
       </div>
+
     </div>
 
     <div style="text-align:center;margin-top:2.5rem" class="reveal">
@@ -1251,7 +1338,7 @@ document.querySelectorAll('.why-bar').forEach(bar => {
         <span class="section-label">Appointments</span>
         <h2>Book Your<br><em>Transformation</em></h2>
         <div class="divider"><div class="divider-diamond"></div></div>
-        <p>Ready to look and feel extraordinary? Book your appointment online in minutes. A non-refundable deposit of £30 or 30% of the total service is required to secure all bookings.</p>
+        <p>Ready to look and feel extraordinary? Book your appointment online in minutes. A non-refundable deposit of £30 or 30% of the total service (whichever is greater) is required to secure all bookings.</p>
         <ul class="booking-perks">
           <li><span class="perk-dot"></span> Booking is <strong style="color:var(--text)">not confirmed</strong> until deposit is received</li>
           <li><span class="perk-dot"></span> Remaining balance due before or on the day</li>
@@ -1287,42 +1374,35 @@ document.querySelectorAll('.why-bar').forEach(bar => {
                 <span>👰</span>
                 <div><div class="svc-option-name">Bridal Trial</div><div class="svc-option-dur">~90 mins</div></div>
               </div>
-              <span class="svc-option-price">TBC</span>
+              <span class="svc-option-price">From £60</span>
             </div>
             <div class="svc-option" onclick="selectService(this,'Wedding Day Makeup','TBC',120)">
               <div class="svc-option-left">
                 <span>💍</span>
-                <div><div class="svc-option-name">Wedding Day Makeup</div><div class="svc-option-dur">~2 hrs</div></div>
+                <div><div class="svc-option-name">Tradational /White Wedding  Makeup</div><div class="svc-option-dur">~2 hrs</div></div>
               </div>
-              <span class="svc-option-price">TBC</span>
+              <span class="svc-option-price">From £200</span>
             </div>
             <div class="svc-option" onclick="selectService(this,'Graduation — Soft Glam','TBC',60)">
               <div class="svc-option-left">
-                <span>🎓</span>
-                <div><div class="svc-option-name">Graduation — Soft Glam</div><div class="svc-option-dur">~1 hr · Lashes incl.</div></div>
+                <span>🎉 </span>
+                <div><div class="svc-option-name">Birthday Glam</div><div class="svc-option-dur">~1 hr · Lashes incl.</div></div>
               </div>
-              <span class="svc-option-price">TBC</span>
-            </div>
-            <div class="svc-option" onclick="selectService(this,'Graduation — Full Glam','TBC',75)">
-              <div class="svc-option-left">
-                <span>🎓</span>
-                <div><div class="svc-option-name">Graduation — Full Glam</div><div class="svc-option-dur">~75 mins · Lashes incl.</div></div>
-              </div>
-              <span class="svc-option-price">TBC</span>
+              <span class="svc-option-price">From £65</span>
             </div>
             <div class="svc-option" onclick="selectService(this,'Occasion — Soft Glam','TBC',60)">
               <div class="svc-option-left">
                 <span>💄</span>
                 <div><div class="svc-option-name">Occasion — Soft Glam</div><div class="svc-option-dur">~1 hr</div></div>
               </div>
-              <span class="svc-option-price">TBC</span>
+              <span class="svc-option-price">From £50</span>
             </div>
             <div class="svc-option" onclick="selectService(this,'Occasion — Full Glam','TBC',75)">
               <div class="svc-option-left">
                 <span>💄</span>
                 <div><div class="svc-option-name">Occasion — Full Glam</div><div class="svc-option-dur">~75 mins</div></div>
               </div>
-              <span class="svc-option-price">TBC</span>
+              <span class="svc-option-price">From £60</span>
             </div>
           </div>
           <div class="step-nav">
@@ -1351,11 +1431,11 @@ document.querySelectorAll('.why-bar').forEach(bar => {
         <div class="booking-panel" id="panel-3">
           <p style="font-family:'Cinzel',serif;font-size:.65rem;letter-spacing:.18em;color:var(--muted);margin-bottom:1.2rem">YOUR DETAILS</p>
           <div class="form-row">
-            <div class="form-field"><label>First Name</label><input type="text" id="fname" placeholder="e.g. Carine" /></div>
+            <div class="form-field"><label>First Name</label><input type="text" id="fname" placeholder="e.g. Amara" /></div>
             <div class="form-field"><label>Last Name</label><input type="text" id="lname" placeholder="e.g. Johnson" /></div>
           </div>
           <div class="form-field"><label>Email Address</label><input type="email" id="bemail" placeholder="your@email.com" /></div>
-          <div class="form-field"><label>Phone Number</label><input type="tel" id="bphone" placeholder="0714 731 236" /></div>
+          <div class="form-field"><label>Phone Number</label><input type="tel" id="bphone" placeholder="07404 761 241" /></div>
           <div class="form-field">
             <label>Location Preference</label>
             <select id="blocation" onchange="handleLocationChange(this)">
@@ -1399,14 +1479,42 @@ document.querySelectorAll('.why-bar').forEach(bar => {
 
           <p style="font-family:'Cinzel',serif;font-size:.65rem;letter-spacing:.18em;color:var(--muted);margin-bottom:.8rem">PAYMENT METHOD</p>
           <div class="payment-methods">
+            <!-- Card -->
             <div class="pay-method selected" onclick="selectPayment(this)">
-              <span class="pay-icon">💳</span>Card
+              <span class="pay-icon">
+                <svg viewBox="0 0 38 24" width="38" height="24" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="38" height="24" rx="4" fill="none" stroke="currentColor" stroke-width="1.2"/>
+                  <rect x="0" y="7" width="38" height="5" fill="currentColor" opacity=".5"/>
+                  <rect x="4" y="16" width="8" height="2" rx="1" fill="currentColor" opacity=".6"/>
+                  <rect x="14" y="16" width="5" height="2" rx="1" fill="currentColor" opacity=".4"/>
+                </svg>
+              </span>
+              Card
             </div>
+            <!-- Apple Pay -->
             <div class="pay-method" onclick="selectPayment(this)">
-              <span class="pay-icon">🍎</span>Apple Pay
+              <span class="pay-icon">
+                <svg viewBox="0 0 60 24" width="52" height="22" xmlns="http://www.w3.org/2000/svg">
+                  <!-- Apple logo -->
+                  <path d="M8.5 5.2c.7-.9 1.2-2.1 1-3.2-1 .1-2.2.7-2.9 1.6-.6.8-1.2 2-.9 3.1 1 .1 2.1-.5 2.8-1.5z" fill="currentColor"/>
+                  <path d="M11.5 7.5c-1.5-.1-2.8.9-3.5.9s-1.8-.8-3-.8c-1.5.1-2.9.9-3.7 2.3-1.6 2.7-.4 6.7 1.1 8.9.8 1.1 1.7 2.3 2.9 2.3 1.1 0 1.6-.7 3-.7s1.8.7 3 .7c1.2 0 2-1.1 2.8-2.2.9-1.3 1.2-2.5 1.3-2.6-.1 0-2.4-1-2.4-3.6 0-2.3 1.8-3.3 1.9-3.4-1-1.5-2.7-1.8-3.4-1.8z" fill="currentColor"/>
+                  <!-- Pay text -->
+                  <text x="20" y="17" font-family="sans-serif" font-size="11" font-weight="600" fill="currentColor">Pay</text>
+                </svg>
+              </span>
+              Apple Pay
             </div>
+            <!-- Google Pay -->
             <div class="pay-method" onclick="selectPayment(this)">
-              <span class="pay-icon">G</span>Google Pay
+              <span class="pay-icon">
+                <svg viewBox="0 0 60 24" width="52" height="22" xmlns="http://www.w3.org/2000/svg">
+                  <!-- G logo simplified -->
+                  <path d="M10 12a5 5 0 1 1 0-.01M10 10h4" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+                  <!-- Pay text -->
+                  <text x="18" y="17" font-family="sans-serif" font-size="11" font-weight="600" fill="currentColor">Pay</text>
+                </svg>
+              </span>
+              Google Pay
             </div>
           </div>
 
