@@ -418,10 +418,18 @@
       transition: var(--trans);
     }
     .video-cell:hover { border-color: var(--gold); }
-    .play-btn {
-      width: 56px; height: 56px; border: 2px solid var(--gold); border-radius: 50%;
-      display: flex; align-items: center; justify-content: center; opacity: .4;
-    }
+    .play-btn { width: 56px; height: 56px; border: 2px solid var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; opacity: .4; }
+    /* VIDEO LIGHTBOX */
+    .video-play-overlay { position: absolute; inset: 0; z-index: 2; display: flex; align-items: center; justify-content: center; background: rgba(8,7,10,.35); transition: background var(--trans); }
+    .video-cell:hover .video-play-overlay { background: rgba(8,7,10,.15); }
+    .video-play-btn { width: 64px; height: 64px; border-radius: 50%; background: var(--gold); display: flex; align-items: center; justify-content: center; transition: transform var(--trans), background var(--trans); box-shadow: 0 4px 20px rgba(201,164,98,.4); }
+    .video-cell:hover .video-play-btn { transform: scale(1.1); background: var(--gold-lt); }
+    .video-modal-overlay { display: none; position: fixed; inset: 0; z-index: 3000; background: rgba(8,7,10,.92); backdrop-filter: blur(10px); align-items: center; justify-content: center; padding: 1.5rem; }
+    .video-modal-overlay.open { display: flex; }
+    .video-modal-inner { position: relative; width: 100%; max-width: 900px; animation: fadeUp .3s ease; }
+    .video-modal-close { position: absolute; top: -44px; right: 0; background: none; border: 1px solid var(--border); color: var(--text); width: 36px; height: 36px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: var(--trans); }
+    .video-modal-close:hover { border-color: var(--gold); color: var(--gold); }
+
 
     /* ════════════════════════════════════════════════════════════
        BOOKING
@@ -751,6 +759,41 @@
       .policy-card--full { grid-column: span 1; }
     }
 
+    /* ── VIDEO LIGHTBOX ── */
+    .video-play-overlay {
+      position: absolute; inset: 0; z-index: 2;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(8,7,10,.35);
+      transition: background var(--trans);
+    }
+    .video-cell:hover .video-play-overlay { background: rgba(8,7,10,.15); }
+    .video-play-btn {
+      width: 64px; height: 64px; border-radius: 50%;
+      background: var(--gold); display: flex; align-items: center; justify-content: center;
+      transition: transform var(--trans), background var(--trans);
+      box-shadow: 0 4px 20px rgba(201,164,98,.4);
+    }
+    .video-cell:hover .video-play-btn { transform: scale(1.1); background: var(--gold-lt); }
+    .video-modal-overlay {
+      display: none; position: fixed; inset: 0; z-index: 3000;
+      background: rgba(8,7,10,.92); backdrop-filter: blur(10px);
+      align-items: center; justify-content: center;
+      padding: 1.5rem;
+    }
+    .video-modal-overlay.open { display: flex; }
+    .video-modal-inner {
+      position: relative; width: 100%; max-width: 900px;
+      animation: fadeUp .3s ease;
+    }
+    .video-modal-close {
+      position: absolute; top: -44px; right: 0;
+      background: none; border: 1px solid var(--border);
+      color: var(--text); width: 36px; height: 36px;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      transition: var(--trans);
+    }
+    .video-modal-close:hover { border-color: var(--gold); color: var(--gold); }
+
     /* ── RESPONSIVE ════ */
     /* ── TABLET ────────────────────────────────────────────── */
     @media (max-width: 1024px) {
@@ -976,7 +1019,7 @@
     <div class="about-grid">
       <div class="about-img-frame reveal-left">
         <!-- PORTRAIT PHOTO: place your photo at media/images/portrait.jpg -->
-        <img src="/media/portrait photo.JPEG"
+        <img src="media/images/portrait photo.JPEG"
              alt="YB Elegance — Makeup Artist"
              style="width:100%;height:100%;object-fit:cover;object-position:center top;"
              onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
@@ -985,21 +1028,20 @@
             <circle cx="30" cy="22" r="10" stroke="#c9a462" stroke-width="1.5"/>
             <path d="M10 52c0-11.046 8.954-20 20-20s20 8.954 20 20" stroke="#c9a462" stroke-width="1.5"/>
           </svg>
-          <p>PORTRAIT PHOTO<br>COMING SOON</p>
+          <p>PORTRAIT PHOTO</p>
         </div>
       </div>
       <div class="about-text reveal-right">
         <span class="section-label">Our Story</span>
         <h2>Artistry <em>refined</em>,<br>confidence redefined</h2>
         <div class="divider"><div class="divider-diamond"></div></div>
-        <p>YB Elegance was born from a passion for transformative beauty. Based in Southbury, Enfield, every look is designed to enhance your natural features and leave you feeling confident.</p>
-        <p>From weddings, birthdays, and special occasions, each appointment is a personalised, luxury experience.</p>
+        <p>YB Elegance was born from a deep passion for transformative beauty. Based in Southbury, Enfield, every look is crafted with intention to enhance your natural features, reflect your personality, and leave you feeling undeniably confident.</p>
 
         <div style="margin-top:2rem">
           <span class="section-label" style="margin-bottom:1rem">Why Choose Me</span>
           <ul class="booking-perks">
-            <li><span class="perk-dot"></span> Long-lasting, flawless finish</li>
-            <li><span class="perk-dot"></span> Premium products & high hygiene standards</li>
+            <li><span class="perk-dot"></span> Long-lasting, flawless finish built to last your whole event</li>
+            <li><span class="perk-dot"></span> Tailored looks for your skin tone &amp; features  never a one-size-fits-all</li>
           </ul>
         </div>
         <div class="stats-row">
@@ -1034,7 +1076,7 @@
         <div class="service-card" style="grid-column:span 2">
           <div class="service-icon">👰</div>
           <h3>Bridal Makeup</h3>
-          <p>Your wedding day is not the time to experiment it’s the time to feel flawless. This will include skincare/skin prepping, removing unwanted facial hair for a flawless look and high end products</p>
+          <p>Your wedding day is not the time to experiment — it's the time to feel flawless. Includes skincare/skin prepping, removing unwanted facial hair for a flawless look, and high end products.</p>
           <div style="margin-top:1.2rem;display:flex;flex-direction:column;gap:.5rem">
             <div style="display:flex;justify-content:space-between;align-items:center;padding:.6rem 0;border-bottom:1px solid var(--border)">
               <span style="font-size:.9rem;color:var(--text)">Bridal Trial</span>
@@ -1054,13 +1096,12 @@
           </div>
         </div>
 
-        <!-- Birthday MAKEUP -->
+        <!-- BIRTHDAY MAKEUP -->
         <div class="service-card">
           <div class="service-icon">💄</div>
           <h3>Birthday Makeup</h3>
           <p>This look features a dramatic eyeshadow or a defined cut crease, paired with smooth, sculpted skin and a polished lip. Perfect for your birthday night out or event.</p>
           <div style="margin-top:1rem;display:flex;flex-direction:column;gap:.4rem">
-            
             <div style="display:flex;justify-content:space-between;align-items:center;padding:.5rem 0">
               <span style="font-size:.88rem;color:var(--text)">Full Glam</span>
               <span style="font-family:'Cormorant Garant',serif;font-size:1.3rem;color:var(--gold)">From £60</span>
@@ -1070,7 +1111,7 @@
             ✨ Strip Lashes Included
           </div>
           <div class="service-price" style="border-top:1px solid var(--border);margin-top:1.2rem;padding-top:.8rem">
-            <span class="price-book" style="margin-left:0" onclick="setServiceAndBook('Graduation Makeup','TBC')">Book Now →</span>
+            <span class="price-book" style="margin-left:0" onclick="setServiceAndBook('Birthday Glam','£60')">Book Now →</span>
           </div>
         </div>
 
@@ -1078,7 +1119,7 @@
         <div class="service-card">
           <div class="service-icon">🎓</div>
           <h3>Occasion Makeup</h3>
-          <p>Elevated glam for your most important moments—prom, graduation, wedding guest, and special events.</p>
+          <p>Elevated glam for your most important moments — prom, graduation, wedding guest, and special events.</p>
           <div style="margin-top:1rem;display:flex;flex-direction:column;gap:.4rem">
             <div style="display:flex;justify-content:space-between;align-items:center;padding:.5rem 0;border-bottom:1px solid var(--border)">
               <span style="font-size:.88rem;color:var(--text)">Soft Glam</span>
@@ -1181,6 +1222,7 @@
       </div>
 
 
+
       <div style="background:var(--bg2);padding:2.8rem 2.2rem;position:relative;overflow:hidden;transition:var(--trans)"
         onmouseover="this.style.background='var(--bg3)'" onmouseout="this.style.background='var(--bg2)'">
         <div style="font-size:2.2rem;margin-bottom:1.2rem">💎</div>
@@ -1208,13 +1250,13 @@ document.querySelectorAll('.why-bar').forEach(bar => {
     <div class="gallery-header reveal">
       <span class="section-label">Portfolio</span>
       <h2>The Work Speaks</h2>
-      <p>Gallery coming soon — we're curating our best work just for you.</p>
+      
     </div>
 
     <div class="gallery-notice reveal">
       <div class="icon">🖼️</div>
-      <h3>Portfolio Photos &amp; Videos Coming Soon</h3>
-      <p>Our full gallery of transformation photos and behind-the-scenes videos will be showcased here.<br>Follow us on Instagram for a preview of our latest work.</p>
+      <h3>Portfolio Photos &amp; Videos</h3>
+      <p>Our full gallery of transformation photos and behind-the-scenes videos will be showcased here.<br>Follow us on Instagram & Tiktok for a preview of our latest work.</p>
     </div>
 
     <!-- Gallery grid — replace placeholder SVGs with your images once uploaded to media/images/ -->
@@ -1222,7 +1264,7 @@ document.querySelectorAll('.why-bar').forEach(bar => {
 
       <!-- SLOT 1: media/images/gallery-1.jpg — Featured bridal look (large, spans 2 cols × 2 rows) -->
       <div class="gallery-cell">
-        <img src="media/images/gallery-1.jpg" alt="Bridal makeup look"
+        <img src="media/images/bridal.jpeg" alt="Bridal makeup look"
           style="width:100%;height:100%;object-fit:cover"
           onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
         <div class="gallery-cell-inner" style="display:none;flex-direction:column;align-items:center">
@@ -1234,19 +1276,19 @@ document.querySelectorAll('.why-bar').forEach(bar => {
 
       <!-- SLOT 2: media/images/gallery-2.jpg — Glam makeup -->
       <div class="gallery-cell">
-        <img src="media/images/gallery-2.jpg" alt="Glam makeup look"
+        <img src="media/images/prom.jpg" alt="Glam makeup look"
           style="width:100%;height:100%;object-fit:cover"
           onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
         <div class="gallery-cell-inner" style="display:none;flex-direction:column;align-items:center">
           <svg width="30" height="30" viewBox="0 0 40 40" fill="none"><rect x="2" y="2" width="36" height="36" stroke="#c9a462" stroke-width="1.2"/><circle cx="14" cy="14" r="5" stroke="#c9a462" stroke-width="1"/><path d="M2 28l10-10 8 8 6-6 12 12" stroke="#c9a462" stroke-width="1"/></svg>
-          <span>GLAM</span>
+          <span>PROM</span>
         </div>
-        <div class="gallery-tag">MAKEUP</div>
+        <div class="gallery-tag">PROM MAKEUP</div>
       </div>
 
       <!-- SLOT 3: media/images/gallery-3.jpg — Style/glam -->
       <div class="gallery-cell">
-        <img src="media/images/gallery-3.jpg" alt="Glam style look"
+        <img src="media/images/glam.jpeg" alt="Glam style look"
           style="width:100%;height:100%;object-fit:cover"
           onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
         <div class="gallery-cell-inner" style="display:none;flex-direction:column;align-items:center">
@@ -1258,7 +1300,7 @@ document.querySelectorAll('.why-bar').forEach(bar => {
 
       <!-- SLOT 4: media/images/gallery-4.jpg — Editorial (spans 2 cols) -->
       <div class="gallery-cell">
-        <img src="media/images/gallery-4.jpg" alt="Editorial makeup look"
+        <img src="media/images/editorial.JPEG" alt="Editorial makeup look"
           style="width:100%;height:100%;object-fit:cover"
           onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
         <div class="gallery-cell-inner" style="display:none;flex-direction:column;align-items:center">
@@ -1270,7 +1312,31 @@ document.querySelectorAll('.why-bar').forEach(bar => {
 
       <!-- SLOT 5: media/images/gallery-5.jpg — Occasion -->
       <div class="gallery-cell">
-        <img src="media/images/gallery-5.jpg" alt="Occasion makeup look"
+        <img src="media/images/hair.JPG" alt="Hair"
+          style="width:100%;height:100%;object-fit:cover"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+        <div class="gallery-cell-inner" style="display:none;flex-direction:column;align-items:center">
+          <svg width="30" height="30" viewBox="0 0 40 40" fill="none"><rect x="2" y="2" width="36" height="36" stroke="#c9a462" stroke-width="1.2"/><circle cx="14" cy="14" r="5" stroke="#c9a462" stroke-width="1"/><path d="M2 28l10-10 8 8 6-6 12 12" stroke="#c9a462" stroke-width="1"/></svg>
+          <span>HAIR</span>
+        </div>
+        <div class="gallery-tag">HAIR</div>
+      </div>
+
+      <!-- SLOT 6: media/images/gallery-6.jpg — hair -->
+      <div class="gallery-cell">
+        <img src="media/images/hair2.jpg" alt="Hair"
+          style="width:100%;height:100%;object-fit:cover"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+        <div class="gallery-cell-inner" style="display:none;flex-direction:column;align-items:center">
+          <svg width="30" height="30" viewBox="0 0 40 40" fill="none"><rect x="2" y="2" width="36" height="36" stroke="#c9a462" stroke-width="1.2"/><circle cx="14" cy="14" r="5" stroke="#c9a462" stroke-width="1"/><path d="M2 28l10-10 8 8 6-6 12 12" stroke="#c9a462" stroke-width="1"/></svg>
+          <span>HAIR</span>
+        </div>
+        <div class="gallery-tag">HAIR</div>
+      </div>
+
+      <!-- SLOT 7: media/images/gallery-7.jpg — Graduation -->
+      <div class="gallery-cell">
+        <img src="media/images/occasion.JPEG " alt="occasion"
           style="width:100%;height:100%;object-fit:cover"
           onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
         <div class="gallery-cell-inner" style="display:none;flex-direction:column;align-items:center">
@@ -1280,14 +1346,14 @@ document.querySelectorAll('.why-bar').forEach(bar => {
         <div class="gallery-tag">OCCASION</div>
       </div>
 
-      <!-- SLOT 6: media/images/gallery-6.jpg — Graduation -->
-      <div class="gallery-cell">
-        <img src="media/images/gallery-6.jpg" alt="Graduation makeup look"
+       <!-- SLOT 8: media/images/gallery-6.jpg — Graduation -->
+       <div class="gallery-cell">
+        <img src="media/images/grad.JPG" alt="grad"
           style="width:100%;height:100%;object-fit:cover"
           onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
         <div class="gallery-cell-inner" style="display:none;flex-direction:column;align-items:center">
           <svg width="30" height="30" viewBox="0 0 40 40" fill="none"><rect x="2" y="2" width="36" height="36" stroke="#c9a462" stroke-width="1.2"/><circle cx="14" cy="14" r="5" stroke="#c9a462" stroke-width="1"/><path d="M2 28l10-10 8 8 6-6 12 12" stroke="#c9a462" stroke-width="1"/></svg>
-          <span>GRAD</span>
+          <span>GRADUATION</span>
         </div>
         <div class="gallery-tag">GRADUATION</div>
       </div>
@@ -1298,27 +1364,61 @@ document.querySelectorAll('.why-bar').forEach(bar => {
     <div class="video-placeholder reveal">
 
       <!-- VIDEO 1: media/videos/transformation.mp4 -->
-      <div class="video-cell">
-        <video autoplay muted loop playsinline
-          style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0"
-          onerror="this.style.display='none'">
-          <source src="media/videos/transformation.mp4" type="video/mp4">
+      <div class="video-cell" onclick="openVideoModal('media/video/transformative.mp4')" style="cursor:pointer">
+        <video muted playsinline preload="metadata"
+          style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;pointer-events:none">
+          <source src="media/video/transformative.mp4" type="video/mp4">
         </video>
-        <div class="play-btn" style="position:relative;z-index:1">▶</div>
+        <div class="video-play-overlay">
+          <div class="video-play-btn">
+            <svg viewBox="0 0 24 24" width="28" height="28" fill="var(--bg)"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+        </div>
         <div class="gallery-tag">TRANSFORMATION VIDEO</div>
       </div>
 
-      <!-- VIDEO 2: media/videos/behind-scenes.mp4 -->
-      <div class="video-cell">
-        <video autoplay muted loop playsinline
-          style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0"
-          onerror="this.style.display='none'">
-          <source src="media/videos/behind-scenes.mp4" type="video/mp4">
+      <!-- VIDEO 2: media/bts.mp4 -->
+      <div class="video-cell" onclick="openVideoModal('media/video/bts.mp4')" style="cursor:pointer">
+        <video muted playsinline preload="metadata"
+          style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;pointer-events:none">
+          <source src="media/video/bts.mp4" type="video/mp4">
         </video>
-        <div class="play-btn" style="position:relative;z-index:1">▶</div>
+        <div class="video-play-overlay">
+          <div class="video-play-btn">
+            <svg viewBox="0 0 24 24" width="28" height="28" fill="var(--bg)"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+        </div>
         <div class="gallery-tag">BEHIND THE SCENES</div>
       </div>
 
+      <!-- VIDEO 3-->
+      <div class="video-cell" onclick="openVideoModal('media/video/bridal.mp4')" style="cursor:pointer">
+        <video muted playsinline preload="metadata"
+          style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;pointer-events:none">
+          <source src="media/video/bridal.mp4" type="video/mp4">
+        </video>
+        <div class="video-play-overlay">
+          <div class="video-play-btn">
+            <svg viewBox="0 0 24 24" width="28" height="28" fill="var(--bg)"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+        </div>
+        <div class="gallery-tag">BRIDAL</div>
+      </div>
+
+    </div>
+
+    <!-- ░░ VIDEO LIGHTBOX MODAL ░░ -->
+    <div class="video-modal-overlay" id="videoModal" onclick="closeVideoModal(event)">
+      <div class="video-modal-inner">
+        <button class="video-modal-close" onclick="closeVideoModal()">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+          </svg>
+        </button>
+        <video id="modalVideo" controls playsinline
+          style="width:100%;max-height:80vh;background:#000;display:block;border:1px solid var(--border)">
+        </video>
+      </div>
     </div>
 
     <div style="text-align:center;margin-top:2.5rem" class="reveal">
@@ -1369,35 +1469,35 @@ document.querySelectorAll('.why-bar').forEach(bar => {
         <div class="booking-panel active" id="panel-1">
           <p style="font-family:'Cinzel',serif;font-size:.65rem;letter-spacing:.18em;color:var(--muted);margin-bottom:1.2rem">SELECT A SERVICE</p>
           <div class="service-select-list">
-            <div class="svc-option" onclick="selectService(this,'Bridal Trial','TBC',90)">
+            <div class="svc-option" onclick="selectService(this,'Bridal Trial','£60',90)">
               <div class="svc-option-left">
                 <span>👰</span>
                 <div><div class="svc-option-name">Bridal Trial</div><div class="svc-option-dur">~90 mins</div></div>
               </div>
               <span class="svc-option-price">From £60</span>
             </div>
-            <div class="svc-option" onclick="selectService(this,'Wedding Day Makeup','TBC',120)">
+            <div class="svc-option" onclick="selectService(this,'Traditional / White Wedding Makeup','£200',120)">
               <div class="svc-option-left">
                 <span>💍</span>
-                <div><div class="svc-option-name">Tradational /White Wedding  Makeup</div><div class="svc-option-dur">~2 hrs</div></div>
+                <div><div class="svc-option-name">Traditional / White Wedding Makeup</div><div class="svc-option-dur">~2 hrs</div></div>
               </div>
               <span class="svc-option-price">From £200</span>
             </div>
-            <div class="svc-option" onclick="selectService(this,'Graduation — Soft Glam','TBC',60)">
+            <div class="svc-option" onclick="selectService(this,'Birthday Glam','£65',60)">
               <div class="svc-option-left">
-                <span>🎉 </span>
+                <span>🎉</span>
                 <div><div class="svc-option-name">Birthday Glam</div><div class="svc-option-dur">~1 hr · Lashes incl.</div></div>
               </div>
               <span class="svc-option-price">From £65</span>
             </div>
-            <div class="svc-option" onclick="selectService(this,'Occasion — Soft Glam','TBC',60)">
+            <div class="svc-option" onclick="selectService(this,'Occasion — Soft Glam','£50',60)">
               <div class="svc-option-left">
                 <span>💄</span>
                 <div><div class="svc-option-name">Occasion — Soft Glam</div><div class="svc-option-dur">~1 hr</div></div>
               </div>
               <span class="svc-option-price">From £50</span>
             </div>
-            <div class="svc-option" onclick="selectService(this,'Occasion — Full Glam','TBC',75)">
+            <div class="svc-option" onclick="selectService(this,'Occasion — Full Glam','£60',75)">
               <div class="svc-option-left">
                 <span>💄</span>
                 <div><div class="svc-option-name">Occasion — Full Glam</div><div class="svc-option-dur">~75 mins</div></div>
@@ -1729,7 +1829,7 @@ document.querySelectorAll('.why-bar').forEach(bar => {
       <h5>Services</h5>
       <ul>
         <li><a href="#services">Bridal Makeup</a></li>
-          <li><a href="#services">Graduation Makeup</a></li>
+          <li><a href="#services">Birthday Makeup</a></li>
           <li><a href="#services">Occasion Makeup</a></li>
           <li><a href="#services">Soft Glam</a></li>
           <li><a href="#services">Full Glam</a></li>
@@ -1757,7 +1857,7 @@ document.querySelectorAll('.why-bar').forEach(bar => {
   </div>
   <div class="footer-bottom">
     <span>© 2026 YB Elegance. All rights reserved. · 4 Lincoln Way, Southbury, Enfield EN1 TE</span>
-    <span>Designed with ✦ in London</span>
+    
   </div>
 </footer>
 
@@ -1855,7 +1955,7 @@ function updateNavActive() {
 
 /* ── MARQUEE ─────────────────────────────────────────── */
 (function() {
-  const items = ['Bridal Makeup','Graduation Glam','Occasion Makeup','Soft & Full Glam','Strip Lashes Included','Southbury · Enfield','Book Online','Premium Products Guaranteed'];
+  const items = ['Bridal Makeup','Birthday Glam','Occasion Makeup','Soft & Full Glam','Strip Lashes Included','Southbury · Enfield','Book Online','Premium Products Guaranteed'];
   const track = document.getElementById('marqueeTrack');
   let html = '';
   for (let i = 0; i < 2; i++)
@@ -2153,7 +2253,31 @@ function sendEnquiry() {
   });
 }
 
-/* ── INIT ─────────────────────────────────────────────── */
+/* ── VIDEO LIGHTBOX ── */
+function openVideoModal(src) {
+  const modal = document.getElementById('videoModal');
+  const video = document.getElementById('modalVideo');
+  video.src = src;
+  modal.classList.add('open');
+  video.play().catch(() => {}); // autoplay with sound on click
+  document.body.style.overflow = 'hidden';
+}
+function closeVideoModal(e) {
+  // If clicking the overlay background (not the inner box), close
+  if (e && e.target !== document.getElementById('videoModal')) return;
+  const modal = document.getElementById('videoModal');
+  const video = document.getElementById('modalVideo');
+  video.pause();
+  video.src = '';
+  modal.classList.remove('open');
+  document.body.style.overflow = '';
+}
+// Also close on Escape key
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeVideoModal({ target: document.getElementById('videoModal') });
+});
+
+/* ── INIT ── */
 renderCalendar();
 renderTimeSlots();
 </script>
